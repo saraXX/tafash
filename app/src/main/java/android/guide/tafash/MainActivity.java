@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -19,6 +18,15 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
+// ads
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
+
 public class MainActivity extends AppCompatActivity {
     //    TODO 5 : WRITE DOWN THE URL'S FOR BOTH INFO AND BACKGROUND COLORS
     public static final String BASE_INFO_URL = "https://uselessfacts.jsph.pl/";
@@ -30,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
     xColorsAPI colorsAPI;
     RandomInfoAPI randomInfoAPI;
     int[] gradiantColors;
+    GradientDrawable gd;
 
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 getBackground();
 
 
-                GradientDrawable gd = new GradientDrawable(
+                gd = new GradientDrawable(
                         GradientDrawable.Orientation.TOP_BOTTOM,gradiantColors);
                 gd.setCornerRadius(0f);
                 relativeLayout.setBackgroundDrawable(gd);
@@ -68,6 +78,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//        ads
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
 
@@ -120,21 +140,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 gradiantColors = new int[2];
                 List<BackgroundColors> colorsList = response.body();
-                Log.d("TAG", "onResponse: get "+colorsList.get(0).getColorCode());
-                Log.d("TAG", "onResponse: obj"+colorsList.get(0).hex);
-                Log.d("TAG", "onResponse: elem 1 "+colorsList.get(1).getColorCode());
-                Log.d("TAG", "onResponse: body size"+response.body().size());
-                Log.d("TAG", "onResponse: body"+response.body());
 
                 gradiantColors[0] = Color.parseColor(colorsList.get(0).getColorCode());
                 gradiantColors[1] = Color.parseColor(colorsList.get(1).getColorCode());
-//                gradiantColors[2] = Color.parseColor(colorsList.get(2).getColorCode());
-
-
-                Log.d("TAG", "onResponse: grad 0"+gradiantColors[0]);
-                Log.d("TAG", "onResponse: grad 1"+gradiantColors[1]);
-//                Log.d("TAG", "onResponse: grad 3"+gradiantColors[2]);
-
             }
 
             @Override

@@ -5,23 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:padding="20dp"
     android:id="@+id/relativeLayout"
     android:background="@color/purple_200">
 
-    <LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:padding="5dp"
-    android:layout_margin="5dp"
-    android:layout_centerInParent="true"
-    android:background="#60FFFFFF">
-
-    <TextView
+    <!--    ads -->
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/adView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"/>
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-4268931198452441/8644267739">
+    </com.google.android.gms.ads.AdView>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_margin="5dp"
+        android:layout_centerInParent="true"
+        android:background="#60FFFFFF">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"/>
     </LinearLayout>
 
     <Button
